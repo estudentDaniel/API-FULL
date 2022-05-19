@@ -1,0 +1,8 @@
+use
+ID:
+name: String
+email: String
+passwordHash: String
+phone: Int
+state: String
+token: String
