@@ -1,23 +1,13 @@
-// const mongoose = require('mongoose');
 const express = require('express');
-const moongose = require('mongoose');
-const apiRouters = require('./router');
-const cors = require('cors');
+const routes = require('./model/banco');
+const server = express();
+const bodyParser = require('body-parser');
 
-require('dotenv').config({path: 'variables.env'});
-//implementar conexao com BD MONGO --> connect,
-moongose.connect( process.env.DATABASE, { useNewUrlParser: true, useUnifiedTopology:true})
-moongose.Promise = global.Promise;
-moongose.connection.on('error',(error)=>{
-    console.error("ERRO: "+error.message); 
+
+server.use(express.json());//trabalha com o caminho de rota
+server.use(bodyParser.urlencoded({extended: true}));
+server.use(routes,()=>{});
+server.listen(3000, ()=>{
+    console.log("Server is running on port 3000!");
 });
 
-const server = express();
-server.use(cors());
-server.use(express.json());
-server.use(express.urlencoded({ extended: true }));
-server.use('/',apiRouters);
-
-server.listen(process.env.PORT, ()=>{
-    console.log(`Servidor rodando na porta: ${process.env.PORT}`);
-})
